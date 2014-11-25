@@ -128,8 +128,8 @@ IASTriggerExtension.prototype.prev = function() {
 
   if (this.$triggerPrev) {
 
-    if(null != this.$nextCallback){
-        this.$nextCallback();
+    if(null != this.nextCallback){
+        this.nextCallback();
     }
 
     this.$triggerPrev.remove();
