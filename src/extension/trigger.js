@@ -14,6 +14,7 @@ var IASTriggerExtension = function(options) {
   this.ias = null;
   this.html = (options.html).replace('{text}', options.text);
   this.htmlPrev = (options.htmlPrev).replace('{text}', options.textPrev);
+  this.nextCallback = options.nextCallback;
   this.enabled = true;
   this.count = 0;
   this.offset = options.offset;
@@ -84,6 +85,13 @@ var IASTriggerExtension = function(options) {
  * @param {object} ias
  */
 IASTriggerExtension.prototype.bind = function(ias) {
+
+  var overrideOffset = ias.$itemsContainer.data('iasOffset');
+
+  if(undefined !== overrideOffset){
+      this.offset = overrideOffset;
+  }
+
   var self = this;
 
   this.ias = ias;
@@ -119,6 +127,11 @@ IASTriggerExtension.prototype.prev = function() {
   this.ias.unbind();
 
   if (this.$triggerPrev) {
+
+    if(null != this.$nextCallback){
+        this.$nextCallback();
+    }
+
     this.$triggerPrev.remove();
     this.$triggerPrev = null;
   }
@@ -134,7 +147,8 @@ IASTriggerExtension.prototype.defaults = {
   html: '<div class="ias-trigger ias-trigger-next" style="text-align: center; cursor: pointer;"><a>{text}</a></div>',
   textPrev: 'Load previous items',
   htmlPrev: '<div class="ias-trigger ias-trigger-prev" style="text-align: center; cursor: pointer;"><a>{text}</a></div>',
-  offset: 0
+  offset: 0,
+  nextCallback: null
 };
 
 /**
